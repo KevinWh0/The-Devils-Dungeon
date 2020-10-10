@@ -1,5 +1,5 @@
-import { blockSize, mapoffsetX, mapoffsetY, player } from "./assetManager.js";
-import { fill, rect } from "./toolbox.js";
+import { blockSize, mapoffsetX, mapoffsetY, player } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
+import { fill, rect } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
 
 export let spawnX = 0;
 export let spawnY = 0;
