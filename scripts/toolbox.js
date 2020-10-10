@@ -1,6 +1,6 @@
-import { updateGameArea, fps } from "../index.js";
-import { setMapSize, map, worldWidth, worldHeight } from "./assetManager.js";
-import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
+import { updateGameArea, fps } from "https://kevinwh0.github.io/The-Devils-Dungeon/index.js";
+import { setMapSize, map, worldWidth, worldHeight } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
+import { setSpawnPos, spawnX, spawnY } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/spawnBlock.js";
 //export let mapWidth;
 //export let mapHeight;
 
