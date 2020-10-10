@@ -1,6 +1,6 @@
-import { Block } from "./block.js";
-import { Player } from "./player.js";
-import { height, loadWorld, width } from "./toolbox.js";
+import { Block } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/block.js";
+import { Player } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/player.js";
+import { height, loadWorld, width } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
 export let buildMode = false;
 
 export let worldWidth = 10;
@@ -45,16 +45,16 @@ export let level = 0;
 export let levelChangeChecker = buildMode ? level : -1;
 
 export let levels = {
-  0: "./maps/level0.txt",
-  1: "./maps/level1.txt",
-  2: "./maps/level2.txt",
-  3: "./maps/level3.txt",
-  4: "./maps/level4.txt",
-  5: "./maps/level5.txt",
-  6: "./maps/level6.txt",
-  7: "./maps/level7.txt",
-  8: "./maps/level8.txt",
-  9: "./maps/level9.txt",
+  0: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level0.txt",
+  1: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level1.txt",
+  2: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level2.txt",
+  3: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level3.txt",
+  4: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level4.txt",
+  5: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level5.txt",
+  6: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level6.txt",
+  7: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level7.txt",
+  8: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level8.txt",
+  9: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level9.txt",
 };
 
 export function loadNextLevel() {
@@ -69,19 +69,20 @@ export function loadNextLevel() {
 export let player = new Player(0, 0);
 
 export let crate = new Image();
-crate.src = "../assets/tiles/crate.png";
+
+crate.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/crate.png";
 export let exitTile = new Image();
-exitTile.src = "../assets/tiles/ExitHole.png";
+exitTile.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/ExitHole.png";
 export let key = new Image();
-key.src = "../assets/tiles/Key.png";
+key.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/Key.png";
 export let rotateBlock = new Image();
-rotateBlock.src = "../assets/tiles/rotateBlock.png";
+rotateBlock.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/rotateBlock.png";
 export let woodFloor = new Image();
-woodFloor.src = "../assets/tiles/woodFloor.png";
+woodFloor.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/woodFloor.png";
 export let stoneWall = new Image();
-stoneWall.src = "../assets/tiles/stoneWall.png";
+stoneWall.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/stoneWall.png";
 export let lockedExitHole = new Image();
-lockedExitHole.src = "../assets/tiles/LockedExitHole.png";
+lockedExitHole.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/LockedExitHole.png";
 
 export let totalBlocks = 6;
 export let blocks = new Map();
