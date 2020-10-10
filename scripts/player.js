@@ -6,7 +6,7 @@ import {
   height,
   fill,
   rect,
-} from "./toolbox.js";
+} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
 import {
   blocks,
   blockSize,
@@ -15,7 +15,7 @@ import {
   mapoffsetY,
   worldHeight,
   worldWidth,
-} from "./assetManager.js";
+} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
 export class Player {
   x = 0;
   y = 0;
