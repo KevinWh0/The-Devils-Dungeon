@@ -9,7 +9,7 @@ import {
   mapoffsetX,
   mapoffsetY,
   buildMode,
-} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
+} from "./assetManager.js";
 import {
   loadWorld,
   rect,
@@ -20,22 +20,14 @@ import {
   mouseDown,
   mouseX,
   mouseY,
-} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
-import { placing } from "https://kevinwh0.github.io/The-Devils-Dungeon/index.js";
-import { setSpawnPos, spawnX, spawnY } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/spawnBlock.js";
+} from "./toolbox.js";
+import { placing } from "../index.js";
+import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 export function loadLvl(lvl) {
   loadWorld(levels[lvl]);
 }
 
 export function renderLvl() {
-  fill("white");
-  rect(
-    mapoffsetX - 10,
-    mapoffsetY - 10,
-    worldWidth * blockSize + 20,
-    worldHeight * blockSize + 20
-  );
-
   for (var i = 0; i < worldWidth; i++) {
     for (var j = 0; j < worldHeight; j++) {
       if (buildMode) {
@@ -50,7 +42,6 @@ export function renderLvl() {
             blockSize
           )
         ) {
-          fill("red");
           if (placing > -1) map[i][j] = placing;
           else {
             setSpawnPos(
@@ -58,8 +49,6 @@ export function renderLvl() {
               Math.floor((mouseY - mapoffsetY) / blockSize)
             );
           }
-        } else {
-          fill("white");
         }
       }
       blocks

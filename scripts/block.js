@@ -1,5 +1,5 @@
-import { woodFloor } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
-import { renderImage, rect, fill } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
+import { woodFloor } from "./assetManager.js";
+import { renderImage, rect, fill } from "./toolbox.js";
 
 export class Block {
   img = null;

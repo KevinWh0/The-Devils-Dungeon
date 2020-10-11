@@ -6,7 +6,9 @@ import {
   height,
   fill,
   rect,
-} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
+  keyReleased,
+  keyPushed,
+} from "./toolbox.js";
 import {
   blocks,
   blockSize,
@@ -15,13 +17,15 @@ import {
   mapoffsetY,
   worldHeight,
   worldWidth,
-} from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
+} from "./assetManager.js";
+let movekeyPressed = false;
 export class Player {
   x = 0;
   y = 0;
   xVel = 0;
   yVel = 0;
   haskey = false;
+  totalMovesThisLevel = 0;
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -37,7 +41,10 @@ export class Player {
     );
   }
   update() {
+    if (keyPushed && movekeyPressed) this.totalMovesThisLevel++;
+
     if (keyDown && this.xVel == 0 && this.yVel == 0) {
+      movekeyPressed = true;
       if (keys[controls[0]]) {
         this.yVel -= 1;
       } else if (keys[controls[1]]) {
@@ -46,8 +53,11 @@ export class Player {
         this.yVel += 1;
       } else if (keys[controls[3]]) {
         this.xVel += 1;
+      } else {
+        movekeyPressed = false;
       }
     }
+
     //Make sure it does not leave the 10 by 10 grid
     if (this.x + this.xVel >= worldWidth) {
       this.xVel = 0;

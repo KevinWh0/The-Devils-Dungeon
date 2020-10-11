@@ -20,6 +20,8 @@ import {
   keyPressed,
   centerText,
   keys,
+  keyReleased,
+  stateChangeButton,
 } from "./scripts/toolbox.js";
 import {
   level,
@@ -41,13 +43,20 @@ import { loadLvl, renderLvl } from "./scripts/renderLevel.js";
 
 import { spawnX, spawnY, renderSpawnBlock } from "./scripts/spawnBlock.js";
 
+import { runUI } from "./scripts/UI.js";
+import { howToPlay, renderMainMenu } from "./scripts/menu.js";
+
 export let states = {
   game: "game",
   menu: "menu",
+  settings: "settings",
+  help: "help",
 };
 
-export let state = states.game;
-
+export let state = states.menu;
+export function setState(s) {
+  state = s;
+}
 export let placing = 1;
 
 game.start();
@@ -64,8 +73,10 @@ export function updateGameArea() {
   rect(0, 0, width, height);
   switch (state) {
     case states.game:
+      player.update();
       updateMapOffset();
       renderLvl();
+      player.render();
       if (buildMode) {
         for (var i = 0; i < totalBlocks + 4; i++) {
           if (i % 2 == 0) fill("white");
@@ -112,8 +123,8 @@ export function updateGameArea() {
 
       fill("white");
       text(
-        "Press R to restart",
-        centerText("Press R to restart", width / 2, 0),
+        "Press R to restart the level",
+        centerText("Press R to restart the level", width / 2, 0),
         (height / 18) * 17
       );
       if (keyPressed && keys[82]) {
@@ -121,12 +132,23 @@ export function updateGameArea() {
         player.x = spawnX;
         player.y = spawnY;
       }
-      player.update();
-      player.render();
+
+      runUI();
       //Checks to see if the next level should be loaded
       loadNextLevel();
       break;
     case states.menu:
+      renderMainMenu();
+      break;
+
+    case states.settings:
+      stateChangeButton("Back", 50, 50, 0, states.menu);
+      break;
+    case states.help:
+      setFontSize(36, "MainFont");
+      howToPlay();
+      stateChangeButton("Back", 50, 50, 0, states.menu);
+
       break;
 
     default:

@@ -1,6 +1,6 @@
-import { Block } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/block.js";
-import { Player } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/player.js";
-import { height, loadWorld, width } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/toolbox.js";
+import { Block } from "./block.js";
+import { Player } from "./player.js";
+import { height, loadWorld, width } from "./toolbox.js";
 export let buildMode = false;
 
 export let worldWidth = 10;
@@ -55,6 +55,9 @@ export let levels = {
   7: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level7.txt",
   8: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level8.txt",
   9: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level9.txt",
+  10: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level10.txt",
+  11: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level11.txt",
+  12: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level12.txt",
 };
 
 export function loadNextLevel() {
@@ -66,25 +69,40 @@ export function loadNextLevel() {
   }
 }
 
+export let menuBackground = new Image();
+menuBackground.src = "../assets/misc/MenuBackground.png";
+
 export let player = new Player(0, 0);
 
 export let crate = new Image();
-
-crate.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/crate.png";
+crate.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/crate.png";
 export let exitTile = new Image();
-exitTile.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/ExitHole.png";
+exitTile.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/ExitHole.png";
 export let key = new Image();
 key.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/Key.png";
 export let rotateBlock = new Image();
-rotateBlock.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/rotateBlock.png";
+rotateBlock.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/rotateBlock.png";
 export let woodFloor = new Image();
-woodFloor.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/woodFloor.png";
+woodFloor.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/woodFloor.png";
 export let stoneWall = new Image();
-stoneWall.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/StoneWall.png";
+stoneWall.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/StoneWall.png";
 export let lockedExitHole = new Image();
-lockedExitHole.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/LockedExitHole.png";
+lockedExitHole.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/LockedExitHole.png";
 
-export let totalBlocks = 6;
+export let hole = new Image();
+hole.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/hole.png";
+export let holeActive = new Image();
+holeActive.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/holeActive.png";
+
+export let totalBlocks = 8;
 export let blocks = new Map();
 
 blocks.set(0, new Block("white"));
@@ -113,7 +131,7 @@ blocks.get(3).setUpdateFunction((block, x, y, w, h) => {
   }
 });
 
-blocks.set(4, new Block("blue"));
+blocks.set(4, new Block("blue"), true);
 blocks.get(4).setUpdateFunction((block, x, y, w, h) => {
   if (
     (x - mapoffsetX) / blockSize == player.x &&
@@ -147,10 +165,35 @@ blocks.set(6, new Block("yellow", true));
 blocks.get(6).setUpdateFunction((block, x, y, w, h) => {
   if (
     (x - mapoffsetX) / blockSize == player.x &&
-    (y - mapoffsetY) / blockSize
+    (y - mapoffsetY) / blockSize == player.y
   ) {
     player.haskey = true;
     map[(x - mapoffsetX) / blockSize][(y - mapoffsetY) / blockSize] = 0;
   }
 });
 blocks.get(6).setImg(key);
+
+blocks.set(7, new Block("yellow", true));
+blocks.get(7).setUpdateFunction((block, x, y, w, h) => {
+  if (player.totalMovesThisLevel % 2 == 0) {
+    map[(x - mapoffsetX) / blockSize][(y - mapoffsetY) / blockSize] = 8;
+  }
+});
+blocks.get(7).setImg(hole);
+
+blocks.set(8, new Block("yellow", true));
+
+blocks.get(8).setUpdateFunction((block, x, y, w, h) => {
+  if (!(player.totalMovesThisLevel % 2 == 0)) {
+    map[(x - mapoffsetX) / blockSize][(y - mapoffsetY) / blockSize] = 7;
+  }
+  if (
+    (x - mapoffsetX) / blockSize == player.x &&
+    (y - mapoffsetY) / blockSize == player.y
+  ) {
+    loadWorld(levels[level]);
+    player.x = spawnX;
+    player.y = spawnY;
+  }
+});
+blocks.get(8).setImg(holeActive);

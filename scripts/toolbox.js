@@ -1,6 +1,6 @@
-import { updateGameArea, fps } from "https://kevinwh0.github.io/The-Devils-Dungeon/index.js";
-import { setMapSize, map, worldWidth, worldHeight } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/assetManager.js";
-import { setSpawnPos, spawnX, spawnY } from "https://kevinwh0.github.io/The-Devils-Dungeon/scripts/spawnBlock.js";
+import { updateGameArea, fps, setState } from "../index.js";
+import { setMapSize, map, worldWidth, worldHeight } from "./assetManager.js";
+import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 //export let mapWidth;
 //export let mapHeight;
 
@@ -12,11 +12,16 @@ export let mouseDown = false;
 export let keyDown = false;
 export function resetMousePressed() {
   mousePressed = false;
+  keyReleased = false;
+  keyPushed = false;
 }
 export let mouseX, mouseY;
 //WASD
 export let controls = [87, 65, 83, 68];
 export let keyPressed = -1;
+export let currentKeypress = -1;
+export let keyPushed = false;
+export let keyReleased = false;
 export let keys = new Array(255);
 
 export let game = {
@@ -41,8 +46,11 @@ export let game = {
       mouseY = e.y;
     });
     window.addEventListener("keydown", function (e) {
+      if (currentKeypress + "e" != (e.which || e.keyCode || e.charCode) + "e")
+        keyPushed = true;
       keys[e.keyCode] = true;
       keyPressed = e.which || e.keyCode || e.charCode;
+      currentKeypress = e.which || e.keyCode || e.charCode;
       keyDown = true;
 
       //console.log(event.keyCode);
@@ -50,6 +58,8 @@ export let game = {
     window.addEventListener("keyup", function (e) {
       keys[e.keyCode] = false;
       keyDown = false;
+      keyReleased = true;
+      currentKeypress = -1;
     });
     try {
       $(window).resize(function () {
@@ -77,6 +87,14 @@ export function fill(col) {
 
 export function rect(x, y, w, h) {
   game.context.fillRect(x, y, w, h);
+}
+
+export function rectOutline(x, y, w, h, lnWidth) {
+  var lnW = -lnWidth;
+  rect(x, y, w, lnWidth);
+  rect(x, y + h, w, lnW);
+  rect(x + lnWidth, y, lnW, h);
+  rect(x + w, y, lnW, h + lnW);
 }
 
 export function roundedRect(x, y, width, height, radius) {
@@ -188,6 +206,33 @@ export function saveScreenSettings() {
 export function restoreScreenSettings() {
   var upscaledCanvas = document.getElementById("canvas").getContext("2d");
   upscaledCanvas.restore();
+}
+
+export function stateChangeButton(txt, y, height, textOffset, state) {
+  var textWidth = getTextWidth(txt);
+  if (
+    inArea(
+      mouseX,
+      mouseY,
+      centerText(txt, width / 2, 0) - textWidth * 0.25,
+      y - 35,
+      textWidth * 1.5,
+      height
+    )
+  ) {
+    if (mousePressed) {
+      setState(state);
+    }
+    fill("yellow");
+  } else fill("white");
+  rectOutline(
+    centerText(txt, width / 2, 0) - textWidth * 0.25,
+    y - 35,
+    textWidth * 1.5,
+    height,
+    3
+  );
+  text(txt, centerText(txt, width / 2, 0), y + textOffset);
 }
 
 export function inArea(X, Y, x, y, w, h) {
