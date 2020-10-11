@@ -70,7 +70,8 @@ export function loadNextLevel() {
 }
 
 export let menuBackground = new Image();
-menuBackground.src = "../assets/misc/MenuBackground.png";
+menuBackground.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/MenuBackground.png";
 
 export let player = new Player(0, 0);
 
