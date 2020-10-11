@@ -83,9 +83,11 @@ let blockHelp = [
 let scroller = 0;
 let pageNumber = 0;
 let arrowLeft = new Image();
-arrowLeft.src = "../assets/misc/ArrowLeft.png";
+arrowLeft.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowLeft.png";
 let arrowRight = new Image();
-arrowRight.src = "../assets/misc/ArrowRight.png";
+arrowRight.src =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowRight.png";
 export function howToPlay() {
   scroller++;
   if (scroller % blockSize == 0) scroller = 0;
