@@ -80,7 +80,7 @@ rotateBlock.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/ro
 export let woodFloor = new Image();
 woodFloor.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/woodFloor.png";
 export let stoneWall = new Image();
-stoneWall.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/stoneWall.png";
+stoneWall.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/StoneWall.png";
 export let lockedExitHole = new Image();
 lockedExitHole.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/LockedExitHole.png";
 
