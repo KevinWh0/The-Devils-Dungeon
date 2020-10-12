@@ -12,14 +12,14 @@ import {
 } from "./assetManager.js";
 import {
   loadWorld,
-  rect,
-  fill,
   renderImage,
   inArea,
   mousePressed,
   mouseDown,
   mouseX,
   mouseY,
+  width,
+  height,
 } from "./toolbox.js";
 import { placing } from "../index.js";
 import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
@@ -28,6 +28,12 @@ export function loadLvl(lvl) {
 }
 
 export function renderLvl() {
+  for (var i = 0; i < width / blockSize; i++) {
+    for (var j = 0; j < height / blockSize; j++) {
+      blocks.get(1).render(i * blockSize, j * blockSize, blockSize, blockSize);
+    }
+  }
+
   for (var i = 0; i < worldWidth; i++) {
     for (var j = 0; j < worldHeight; j++) {
       if (buildMode) {

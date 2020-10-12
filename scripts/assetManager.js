@@ -14,6 +14,11 @@ export function updateMapOffset() {
   mapoffsetY = height / 2 - (worldHeight * blockSize) / 2;
 }
 
+export function setMapOffset(x, y) {
+  mapoffsetX = x;
+  mapoffsetY = y;
+}
+
 export let map = new Array(worldWidth);
 for (var i = 0; i < worldWidth; i++) {
   map[i] = new Array(worldHeight);
@@ -58,6 +63,10 @@ export let levels = {
   10: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level10.txt",
   11: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level11.txt",
   12: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level12.txt",
+  13: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level13.txt",
+  14: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level14.txt",
+  15: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level15.txt",
+  16: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level16.txt",
 };
 
 export function loadNextLevel() {
@@ -69,12 +78,22 @@ export function loadNextLevel() {
   }
 }
 
+//export let gameMusic = new Audio("../assets/sounds/music/mainTheme.wav");
+//gameMusic.volume = 0.2;
 export let menuBackground = new Image();
 menuBackground.src =
   "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/MenuBackground.png";
 
-export let player = new Player(0, 0);
+export function loadMenuImg() {
+  menuBackground = new Image();
+  menuBackground.src = "../assets/misc/MenuBackground.png";
+}
 
+export function unloadMenuImg() {
+  menuBackground = null;
+}
+
+export let player = new Player(0, 0);
 export let crate = new Image();
 crate.src =
   "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/crate.png";
@@ -138,7 +157,6 @@ blocks.get(4).setUpdateFunction((block, x, y, w, h) => {
     (x - mapoffsetX) / blockSize == player.x &&
     (y - mapoffsetY) / blockSize == player.y
   ) {
-    //console.log("Winner!");
     var plrxvel = player.xVel;
     player.xVel = player.yVel;
     player.yVel = plrxvel;

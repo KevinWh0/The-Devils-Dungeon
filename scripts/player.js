@@ -18,6 +18,7 @@ import {
   worldHeight,
   worldWidth,
 } from "./assetManager.js";
+import { fps } from "../index.js";
 let movekeyPressed = false;
 export class Player {
   x = 0;
@@ -26,6 +27,7 @@ export class Player {
   yVel = 0;
   haskey = false;
   totalMovesThisLevel = 0;
+  tick = 0;
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -41,6 +43,7 @@ export class Player {
     );
   }
   update() {
+    this.tick++;
     if (keyPushed && movekeyPressed) this.totalMovesThisLevel++;
 
     if (keyDown && this.xVel == 0 && this.yVel == 0) {
@@ -96,8 +99,13 @@ export class Player {
       this.xVel = 0;
       this.yVel = 0;
     }
-
+    //if (this.tick % 2 == 0) {
     this.x += this.xVel;
     this.y += this.yVel;
+    //}
+  }
+  setplayerPos(x, y) {
+    this.x = x;
+    this.y = y;
   }
 }

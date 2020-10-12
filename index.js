@@ -1,6 +1,5 @@
 import {
   removeItem,
-  generateUUID,
   game,
   text,
   fill,
@@ -22,6 +21,7 @@ import {
   keys,
   keyReleased,
   stateChangeButton,
+  isPlaying,
 } from "./scripts/toolbox.js";
 import {
   level,
@@ -37,6 +37,7 @@ import {
   loadNextLevel,
   updateMapOffset,
   buildMode,
+  unloadMenuImg,
 } from "./scripts/assetManager.js";
 
 import { loadLvl, renderLvl } from "./scripts/renderLevel.js";
@@ -44,13 +45,21 @@ import { loadLvl, renderLvl } from "./scripts/renderLevel.js";
 import { spawnX, spawnY, renderSpawnBlock } from "./scripts/spawnBlock.js";
 
 import { runUI } from "./scripts/UI.js";
-import { howToPlay, renderMainMenu } from "./scripts/menu.js";
+import {
+  creditsScreen,
+  howToPlay,
+  renderMainMenu,
+  settingsMenu,
+} from "./scripts/menu.js";
+
+import { buildModeUI } from "./scripts/buildMode.js";
 
 export let states = {
   game: "game",
   menu: "menu",
   settings: "settings",
   help: "help",
+  credits: "credits",
 };
 
 export let state = states.menu;
@@ -58,7 +67,9 @@ export function setState(s) {
   state = s;
 }
 export let placing = 1;
-
+export function setPlacing(p) {
+  placing = p;
+}
 game.start();
 var lastRender = Date.now();
 export let fps;
@@ -74,51 +85,10 @@ export function updateGameArea() {
   switch (state) {
     case states.game:
       player.update();
-      updateMapOffset();
+      if (game.frameNo % 100 == 0) updateMapOffset();
       renderLvl();
       player.render();
-      if (buildMode) {
-        for (var i = 0; i < totalBlocks + 4; i++) {
-          if (i % 2 == 0) fill("white");
-          else fill("lightgrey");
-
-          rect(width - blockSize, i * blockSize, blockSize, blockSize);
-          if (i - 3 >= 0)
-            blocks
-              .get(i - 3)
-              .render(width - blockSize, i * blockSize, blockSize, blockSize);
-          /*if (i == 4)
-          renderImage(
-            crate,
-            width - blockSize,
-            i * blockSize,
-            blockSize,
-            blockSize
-          );*/
-        }
-        fill("black");
-        setFontSize("16", "ariel");
-        text("Save", width - blockSize, 1 * blockSize);
-        text("Load", width - blockSize, 2 * blockSize);
-        text("Spawn", width - blockSize, 3 * blockSize);
-
-        text("Erase", width - blockSize, 4 * blockSize);
-
-        if (mouseX > width - blockSize && mousePressed) {
-          for (var i = 0; i < totalBlocks + 4; i++) {
-            if (mouseY > i * blockSize && mouseY < (i + 1) * blockSize) {
-              if (i == 0) {
-                DownloadWorld();
-              } else if (i == 1) {
-                loadWorld(levels[level]);
-                player.x = spawnX;
-                player.y = spawnY;
-              } else placing = i - 3;
-            }
-          }
-        }
-        renderSpawnBlock();
-      }
+      buildModeUI();
       setFontSize("36", "ariel");
 
       fill("white");
@@ -131,17 +101,23 @@ export function updateGameArea() {
         loadWorld(levels[level]);
         player.x = spawnX;
         player.y = spawnY;
+        player.haskey = false;
       }
 
       runUI();
       //Checks to see if the next level should be loaded
       loadNextLevel();
+      //if (!isPlaying(gameMusic)) {
+      //gameMusic.play();
+      //}
       break;
     case states.menu:
       renderMainMenu();
+      updateMapOffset();
       break;
 
     case states.settings:
+      settingsMenu();
       stateChangeButton("Back", 50, 50, 0, states.menu);
       break;
     case states.help:
@@ -149,6 +125,11 @@ export function updateGameArea() {
       howToPlay();
       stateChangeButton("Back", 50, 50, 0, states.menu);
 
+      break;
+    case states.credits:
+      creditsScreen();
+
+      stateChangeButton("Back", 50, 50, 0, states.menu);
       break;
 
     default:

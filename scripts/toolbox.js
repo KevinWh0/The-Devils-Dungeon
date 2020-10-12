@@ -4,6 +4,9 @@ import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 //export let mapWidth;
 //export let mapHeight;
 
+//TODO https://stackoverflow.com/questions/5026961/html5-canvas-ctx-filltext-wont-do-line-breaks
+//TODO good function is provided in there
+
 export let width = window.innerWidth;
 export let height = window.innerHeight;
 
@@ -74,7 +77,7 @@ export let game = {
         "JQuery does not want to load, the game may behave unexpectedly without it"
       );
     }
-    this.interval = setInterval(updateGameArea, Math.round(1000 / 30));
+    this.interval = setInterval(updateGameArea, Math.round(1000 / 60));
   },
   clear: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -233,6 +236,10 @@ export function stateChangeButton(txt, y, height, textOffset, state) {
     3
   );
   text(txt, centerText(txt, width / 2, 0), y + textOffset);
+}
+
+export function isPlaying(audio) {
+  return !audio.paused;
 }
 
 export function inArea(X, Y, x, y, w, h) {
