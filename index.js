@@ -22,6 +22,8 @@ import {
   keyReleased,
   stateChangeButton,
   isPlaying,
+  isMusicListPlaying,
+  playRandomSong,
 } from "./scripts/toolbox.js";
 import {
   level,
@@ -38,9 +40,11 @@ import {
   updateMapOffset,
   buildMode,
   unloadMenuImg,
+  gameMusic,
+  musicMuted,
 } from "./scripts/assetManager.js";
 
-import { loadLvl, renderLvl } from "./scripts/renderLevel.js";
+import { loadLvl, renderLvl, stoneBackground } from "./scripts/renderLevel.js";
 
 import { spawnX, spawnY, renderSpawnBlock } from "./scripts/spawnBlock.js";
 
@@ -73,6 +77,7 @@ export function setPlacing(p) {
 game.start();
 var lastRender = Date.now();
 export let fps;
+
 export function updateGameArea() {
   var delta = (Date.now() - lastRender) / 1000;
   lastRender = Date.now();
@@ -85,7 +90,14 @@ export function updateGameArea() {
   switch (state) {
     case states.game:
       player.update();
-      if (game.frameNo % 100 == 0) updateMapOffset();
+      if (game.frameNo % 100 == 0) {
+        updateMapOffset();
+        if (!musicMuted && !isMusicListPlaying(gameMusic)) {
+          playRandomSong(gameMusic);
+          //gameMusic[0].play();
+        }
+      }
+      stoneBackground();
       renderLvl();
       player.render();
       buildModeUI();

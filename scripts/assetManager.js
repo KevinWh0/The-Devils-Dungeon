@@ -3,6 +3,12 @@ import { Player } from "./player.js";
 import { height, loadWorld, width } from "./toolbox.js";
 export let buildMode = false;
 
+export let musicMuted = false;
+export let musicVolume = 1;
+export function setMuted(m) {
+  musicMuted = m;
+}
+
 export let worldWidth = 10;
 export let worldHeight = 10;
 export let blockSize = 50;
@@ -46,27 +52,33 @@ export function setMapSize(w, h) {
 }
 
 export let level = 0;
+export function setLvl(lvl) {
+  level = lvl;
+}
 //Set to the same thing to give a blank canvas to make levels
 export let levelChangeChecker = buildMode ? level : -1;
-
+let mapPath = "https://kevinwh0.github.io/The-Devils-Dungeon/maps/";
 export let levels = {
-  0: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level0.txt",
-  1: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level1.txt",
-  2: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level2.txt",
-  3: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level3.txt",
-  4: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level4.txt",
-  5: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level5.txt",
-  6: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level6.txt",
-  7: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level7.txt",
-  8: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level8.txt",
-  9: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level9.txt",
-  10: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level10.txt",
-  11: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level11.txt",
-  12: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level12.txt",
-  13: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level13.txt",
-  14: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level14.txt",
-  15: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level15.txt",
-  16: "https://kevinwh0.github.io/The-Devils-Dungeon/maps/level16.txt",
+  0.5: `${mapPath}easteregg.txt`,
+  0: `${mapPath}level0.txt`,
+  1: `${mapPath}level1.txt`,
+  2: `${mapPath}level2.txt`,
+  3: `${mapPath}level3.txt`,
+  4: `${mapPath}level4.txt`,
+  5: `${mapPath}level5.txt`,
+  6: `${mapPath}level6.txt`,
+  7: `${mapPath}level7.txt`,
+  8: `${mapPath}level8.txt`,
+  9: `${mapPath}level9.txt`,
+  10: `${mapPath}level10.txt`,
+  11: `${mapPath}level11.txt`,
+  12: `${mapPath}level12.txt`,
+  13: `${mapPath}level13.txt`,
+  14: `${mapPath}level14.txt`,
+  15: `${mapPath}level15.txt`,
+  16: `${mapPath}level16.txt`,
+  17: `${mapPath}level17.txt`,
+  18: `${mapPath}level18.txt`,
 };
 
 export function loadNextLevel() {
@@ -77,16 +89,36 @@ export function loadNextLevel() {
     loadWorld(levels[level]);
   }
 }
+let musicPath =
+  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/sounds/music/";
 
-//export let gameMusic = new Audio("../assets/sounds/music/mainTheme.wav");
-//gameMusic.volume = 0.2;
+export let gameMusic = [];
+
+gameMusic.push(new Audio(`${musicPath}/GameMusic/rough-engine.wav`));
+gameMusic[gameMusic.length - 1].volume = 0.2;
+
+gameMusic.push(new Audio(`${musicPath}/GameMusic/power-switch.wav`));
+gameMusic[gameMusic.length - 1].volume = 0.2;
+
+gameMusic.push(new Audio(`${musicPath}/GameMusic/electric-orbit.wav`));
+gameMusic[gameMusic.length - 1].volume = 0.2;
+
+gameMusic.push(new Audio(`${musicPath}/GameMusic/centerpiece-breaker.wav`));
+gameMusic[gameMusic.length - 1].volume = 0.2;
+
+export let mainMenuMusic = new Audio(
+  `${musicPath}/MenuMusic/mainMenu-monday-iddim.wav`
+);
+mainMenuMusic.volume = 0.2;
+
 export let menuBackground = new Image();
 menuBackground.src =
   "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/MenuBackground.png";
 
 export function loadMenuImg() {
   menuBackground = new Image();
-  menuBackground.src = "../assets/misc/MenuBackground.png";
+  menuBackground.src =
+    "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/MenuBackground.png";
 }
 
 export function unloadMenuImg() {
@@ -94,33 +126,27 @@ export function unloadMenuImg() {
 }
 
 export let player = new Player(0, 0);
-export let crate = new Image();
-crate.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/crate.png";
-export let exitTile = new Image();
-exitTile.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/ExitHole.png";
-export let key = new Image();
-key.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/Key.png";
-export let rotateBlock = new Image();
-rotateBlock.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/rotateBlock.png";
-export let woodFloor = new Image();
-woodFloor.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/woodFloor.png";
-export let stoneWall = new Image();
-stoneWall.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/StoneWall.png";
-export let lockedExitHole = new Image();
-lockedExitHole.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/LockedExitHole.png";
 
+let assetsStart = "https://kevinwh0.github.io/The-Devils-Dungeon";
+
+export let crate = new Image();
+crate.src = `${assetsStart}/assets/tiles/crate.png`;
+export let exitTile = new Image();
+exitTile.src = `${assetsStart}/assets/tiles/ExitHole.png`;
+export let key = new Image();
+key.src = `${assetsStart}/assets/tiles/Key.png`;
+export let rotateBlock = new Image();
+rotateBlock.src = `${assetsStart}/assets/tiles/rotateBlock.png`;
+export let woodFloor = new Image();
+woodFloor.src = `${assetsStart}/assets/tiles/woodFloor.png`;
+export let stoneWall = new Image();
+stoneWall.src = `${assetsStart}/assets/tiles/stoneWall.png`;
+export let lockedExitHole = new Image();
+lockedExitHole.src = `${assetsStart}/assets/tiles/LockedExitHole.png`;
 export let hole = new Image();
-hole.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/hole.png";
+hole.src = `${assetsStart}/assets/tiles/hole.png`;
 export let holeActive = new Image();
-holeActive.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/tiles/holeActive.png";
+holeActive.src = `${assetsStart}/assets/tiles/holeActive.png`;
 
 export let totalBlocks = 8;
 export let blocks = new Map();

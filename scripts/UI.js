@@ -1,5 +1,5 @@
 import { setState, state, states } from "../index.js";
-import { key, player } from "./assetManager.js";
+import { key, level, levels, player } from "./assetManager.js";
 import {
   fill,
   height,
@@ -11,11 +11,15 @@ import {
   inArea,
   mousePressed,
   renderImage,
+  button,
+  text,
+  stopGameMusic,
 } from "./toolbox.js";
 
 export function runUI() {
   if (inArea(mouseX, mouseY, width - 50, 10, 40, 40)) {
     if (mousePressed) {
+      stopGameMusic();
       setState(states.menu);
     }
     fill("yellow");
@@ -25,4 +29,5 @@ export function runUI() {
   rect(width - (10 + 19), 15, 8, 30);
 
   if (player.haskey) renderImage(key, width - 90, 10, 40, 40);
+  text(`Level ${level + 1}`, width - 150, (height / 18) * 17);
 }

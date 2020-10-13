@@ -26,14 +26,14 @@ import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 export function loadLvl(lvl) {
   loadWorld(levels[lvl]);
 }
-
-export function renderLvl() {
+export function stoneBackground() {
   for (var i = 0; i < width / blockSize; i++) {
     for (var j = 0; j < height / blockSize; j++) {
       blocks.get(1).render(i * blockSize, j * blockSize, blockSize, blockSize);
     }
   }
-
+}
+export function renderLvl() {
   for (var i = 0; i < worldWidth; i++) {
     for (var j = 0; j < worldHeight; j++) {
       if (buildMode) {

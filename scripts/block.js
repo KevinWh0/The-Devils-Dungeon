@@ -6,7 +6,7 @@ export class Block {
   col = null;
   solid = false;
   pushable = false;
-  updateFunction;
+  updateFunction = [];
   enableBackground = false;
   //constructor(img) {
   //this.img = img;
@@ -26,12 +26,14 @@ export class Block {
   }
   update(x, y, w, h) {
     try {
-      this.updateFunction(this, x, y, w, h);
+      this.updateFunction.forEach((e) => {
+        e(this, x, y, w, h);
+      });
     } catch (err) {}
   }
 
   setUpdateFunction(func) {
-    this.updateFunction = func;
+    this.updateFunction.push(func);
   }
 
   setSolid(solid) {

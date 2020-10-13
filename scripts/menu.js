@@ -4,14 +4,19 @@ import {
   blockSize,
   level,
   levels,
+  mainMenuMusic,
   mapoffsetX,
   mapoffsetY,
   menuBackground,
+  musicMuted,
   player,
+  setLvl,
   setMapOffset,
+  setMuted,
   stoneWall,
   totalBlocks,
 } from "./assetManager.js";
+import { renderLvl } from "./renderLevel.js";
 import {
   fill,
   text,
@@ -29,10 +34,18 @@ import {
   mousePressed,
   stateChangeButton,
   loadWorld,
+  button,
+  setControls,
+  textWraped,
+  isPlaying,
 } from "./toolbox.js";
 let scroller = 0;
 
 export function renderMainMenu() {
+  if (!musicMuted && !isPlaying(mainMenuMusic)) {
+    mainMenuMusic.play();
+  }
+
   var longest = width > height ? width : height;
   renderImage(menuBackground, 0, 0, longest, longest);
   /*scroller++;
@@ -121,12 +134,12 @@ export function howToPlay() {
     resetTimes++;
   }
   var longest = width > height ? width : height;
-  var plrx = player.x * blockSize + mapoffsetX;
-  var plry = player.x * blockSize + mapoffsetX;
+  var plrx = /*player.x * blockSize + */ mapoffsetX;
+  var plry = /*player.x * blockSize + */ mapoffsetX;
 
-  if (!inArea(plrx, plry, -100, -100, width + 100, height + 100)) {
-    resetTimes = -2;
-    player.setplayerPos(0, 0);
+  if (!inArea(plrx, plry, -1000, -1000, width + 1000, height + 1000)) {
+    resetTimes = -12.8;
+    //player.setplayerPos(0, 0);
   }
 
   for (var i = -1; i < width / blockSize; i++) {
@@ -152,6 +165,7 @@ export function howToPlay() {
     scroller + resetTimes * blockSize,
     scroller + resetTimes * blockSize
   );
+  renderLvl();
   player.render();
   player.update();
 
@@ -167,18 +181,16 @@ export function howToPlay() {
 
   setFontSize(12, "MainFont");
 
-  var words = [
-    "Use WASD to move. Once you start ",
-    "moving in a direction you cant ",
-    "move again till you hit a solid block.",
-    "If you mess up you can press R to restart.",
-    "Each block has its own behavior, and to the",
-    " right of here you will see what each ",
-    "block does.",
-  ];
-  for (let i = 0; i < words.length; i++) {
-    text(words[i], 50, height / 3 + 100 + i * 20);
-  }
+  var howtoplayText =
+    "Use WASD to move. Once you start " +
+    "moving in a direction you cant " +
+    "move again till you hit a solid block. " +
+    "If you mess up you can press R to restart." +
+    "Each block has its own behavior, and to the" +
+    " right of here you will see what each " +
+    "block does.";
+  //width / 5, 2
+  textWraped(howtoplayText, 20, height / 3 + 100, width / 5 - 20, 20);
 
   //Arrows
   if (inArea(mouseX, mouseY, width / 3 - 10, height / 2, 50, height / 10)) {
@@ -257,6 +269,18 @@ export function settingsMenu() {
         );
     }
   }
+  button("WASD", 90, 200, 100, 60, 5, () => {
+    setControls([87, 65, 83, 68]);
+  });
+  button("Arrow Keys", 290, 200, 100, 60, 5, () => {
+    setControls([38, 37, 40, 39]);
+  });
+  button("Mute", 90, 280, 100, 60, 5, () => {
+    setMuted(true);
+  });
+  button("Un-Mute", 290, 280, 100, 60, 5, () => {
+    setMuted(false);
+  });
 }
 
 export function creditsScreen() {

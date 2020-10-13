@@ -1,5 +1,15 @@
-import { updateGameArea, fps, setState } from "../index.js";
-import { setMapSize, map, worldWidth, worldHeight } from "./assetManager.js";
+import { updateGameArea, fps, setState, states } from "../index.js";
+import {
+  setMapSize,
+  map,
+  worldWidth,
+  worldHeight,
+  level,
+  buildMode,
+  levels,
+  mainMenuMusic,
+  gameMusic,
+} from "./assetManager.js";
 import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 //export let mapWidth;
 //export let mapHeight;
@@ -21,6 +31,9 @@ export function resetMousePressed() {
 export let mouseX, mouseY;
 //WASD
 export let controls = [87, 65, 83, 68];
+export function setControls(c) {
+  controls = c;
+}
 export let keyPressed = -1;
 export let currentKeypress = -1;
 export let keyPushed = false;
@@ -136,6 +149,27 @@ export function text(text, x, y) {
   game.context.fillText(text, x, y);
 }
 
+export function textWraped(text, x, y, fitWidth, lineHeight) {
+  var context = game.context;
+  fitWidth = fitWidth || 0;
+
+  if (fitWidth <= 0) {
+    context.fillText(text, x, y);
+    return;
+  }
+
+  for (var idx = 1; idx <= text.length; idx++) {
+    var str = text.substr(0, idx);
+    //console.log(str, context.measureText(str).width, fitWidth);
+    if (context.measureText(str).width > fitWidth) {
+      context.fillText(text.substr(0, idx - 1), x, y);
+      textWraped(text.substr(idx - 1), x, y + lineHeight, fitWidth, lineHeight);
+      return;
+    }
+  }
+  context.fillText(text, x, y);
+}
+
 export function outlinedText(text, x, y, thickness) {
   game.context.shadowColor = "black";
   game.context.shadowBlur = 1.4;
@@ -211,6 +245,33 @@ export function restoreScreenSettings() {
   upscaledCanvas.restore();
 }
 
+export function button(txt, x, y, w, h, textOffset, func) {
+  var textWidth = getTextWidth(txt);
+  if (
+    inArea(
+      mouseX,
+      mouseY,
+      centerText(txt, x, 0) - textWidth * 0.25,
+      y - 35,
+      textWidth * 1.5,
+      h
+    )
+  ) {
+    if (mousePressed) {
+      func();
+    }
+    fill("yellow");
+  } else fill("white");
+  rectOutline(
+    centerText(txt, x, 0) - textWidth * 0.25,
+    y - 35,
+    textWidth * 1.5,
+    h,
+    3
+  );
+  text(txt, centerText(txt, x, 0), y + textOffset);
+}
+
 export function stateChangeButton(txt, y, height, textOffset, state) {
   var textWidth = getTextWidth(txt);
   if (
@@ -224,7 +285,13 @@ export function stateChangeButton(txt, y, height, textOffset, state) {
     )
   ) {
     if (mousePressed) {
+      mainMenuMusic.pause();
+      mainMenuMusic.currentTime = 0;
+      stopGameMusic();
+
       setState(state);
+      if (!buildMode) loadWorld(levels[level]);
+      if (state == states.help) loadWorld(levels[0.5]);
     }
     fill("yellow");
   } else fill("white");
@@ -240,6 +307,25 @@ export function stateChangeButton(txt, y, height, textOffset, state) {
 
 export function isPlaying(audio) {
   return !audio.paused;
+}
+
+export function stopGameMusic() {
+  gameMusic.forEach((m) => {
+    m.pause();
+    m.currentTime = 0;
+  });
+}
+export function isMusicListPlaying(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (isPlaying(arr[i])) return true;
+  }
+  return false;
+}
+
+export function playRandomSong(arr) {
+  var musicID = Math.floor(Math.random() * arr.length);
+  arr[musicID].currentTime = 0;
+  arr[musicID].play();
 }
 
 export function inArea(X, Y, x, y, w, h) {
