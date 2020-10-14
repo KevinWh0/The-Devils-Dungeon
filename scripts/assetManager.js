@@ -55,6 +55,10 @@ export let level = 0;
 export function setLvl(lvl) {
   level = lvl;
 }
+export let loadingLevel = false;
+export function setLoadingLevel(lvl) {
+  loadingLevel = lvl;
+}
 //Set to the same thing to give a blank canvas to make levels
 export let levelChangeChecker = buildMode ? level : -1;
 let mapPath = "https://kevinwh0.github.io/The-Devils-Dungeon/maps/";
@@ -79,6 +83,7 @@ export let levels = {
   16: `${mapPath}level16.txt`,
   17: `${mapPath}level17.txt`,
   18: `${mapPath}level18.txt`,
+  19: `${mapPath}level19.txt`,
 };
 
 export function loadNextLevel() {
@@ -89,8 +94,8 @@ export function loadNextLevel() {
     loadWorld(levels[level]);
   }
 }
-let musicPath =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/sounds/music/";
+let musicPath = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/sounds/music/";
+
 
 export let gameMusic = [];
 
@@ -140,13 +145,13 @@ rotateBlock.src = `${assetsStart}/assets/tiles/rotateBlock.png`;
 export let woodFloor = new Image();
 woodFloor.src = `${assetsStart}/assets/tiles/woodFloor.png`;
 export let stoneWall = new Image();
-stoneWall.src = `${assetsStart}/assets/tiles/StoneWall.png`;
+stoneWall.src = `${assetsStart}/assets/tiles/stoneWall.png`;
 export let lockedExitHole = new Image();
 lockedExitHole.src = `${assetsStart}/assets/tiles/LockedExitHole.png`;
-export let hole = new Image();
-hole.src = `${assetsStart}/assets/tiles/hole.png`;
-export let holeActive = new Image();
-holeActive.src = `${assetsStart}/assets/tiles/holeActive.png`;
+export let horizontalCrate = new Image();
+horizontalCrate.src = `${assetsStart}/assets/tiles/horizontalCrate.png`;
+export let verticalCrate = new Image();
+verticalCrate.src = `${assetsStart}/assets/tiles/verticalCrate.png`;
 
 export let totalBlocks = 8;
 export let blocks = new Map();
@@ -158,7 +163,7 @@ blocks.get(1).setSolid(true);
 blocks.get(1).setImg(stoneWall);
 blocks.set(2, new Block("red"));
 blocks.get(2).setImg(crate);
-blocks.get(2).setPushable(true);
+blocks.get(2).setPushable(true, true);
 blocks.get(2).setSolid(true);
 blocks.set(3, new Block("purple"));
 blocks.get(3).setImg(exitTile);
@@ -219,26 +224,13 @@ blocks.get(6).setUpdateFunction((block, x, y, w, h) => {
 blocks.get(6).setImg(key);
 
 blocks.set(7, new Block("yellow", true));
-blocks.get(7).setUpdateFunction((block, x, y, w, h) => {
-  if (player.totalMovesThisLevel % 2 == 0) {
-    map[(x - mapoffsetX) / blockSize][(y - mapoffsetY) / blockSize] = 8;
-  }
-});
-blocks.get(7).setImg(hole);
+
+blocks.get(7).setImg(verticalCrate);
+blocks.get(7).setPushable(false, true);
+blocks.get(7).setSolid(true);
 
 blocks.set(8, new Block("yellow", true));
 
-blocks.get(8).setUpdateFunction((block, x, y, w, h) => {
-  if (!(player.totalMovesThisLevel % 2 == 0)) {
-    map[(x - mapoffsetX) / blockSize][(y - mapoffsetY) / blockSize] = 7;
-  }
-  if (
-    (x - mapoffsetX) / blockSize == player.x &&
-    (y - mapoffsetY) / blockSize == player.y
-  ) {
-    loadWorld(levels[level]);
-    player.x = spawnX;
-    player.y = spawnY;
-  }
-});
-blocks.get(8).setImg(holeActive);
+blocks.get(8).setImg(horizontalCrate);
+blocks.get(8).setPushable(true, false);
+blocks.get(8).setSolid(true);

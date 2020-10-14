@@ -5,7 +5,8 @@ export class Block {
   img = null;
   col = null;
   solid = false;
-  pushable = false;
+  xPushable = false;
+  yPushable = false;
   updateFunction = [];
   enableBackground = false;
   //constructor(img) {
@@ -39,8 +40,9 @@ export class Block {
   setSolid(solid) {
     this.solid = solid;
   }
-  setPushable(pushable) {
-    this.pushable = pushable;
+  setPushable(xPushable, yPushable) {
+    this.xPushable = xPushable;
+    this.yPushable = yPushable;
   }
   setImg(img) {
     this.img = img;

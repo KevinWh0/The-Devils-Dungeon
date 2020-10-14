@@ -9,6 +9,7 @@ import {
   levels,
   mainMenuMusic,
   gameMusic,
+  setLoadingLevel,
 } from "./assetManager.js";
 import { setSpawnPos, spawnX, spawnY } from "./spawnBlock.js";
 //export let mapWidth;
@@ -161,12 +162,20 @@ export function textWraped(text, x, y, fitWidth, lineHeight) {
   for (var idx = 1; idx <= text.length; idx++) {
     var str = text.substr(0, idx);
     //console.log(str, context.measureText(str).width, fitWidth);
+    console.log(text.substr(0, idx - 1));
+    if (text.substr(0, idx + 1).substr(idx - 1, idx + 1) == "NL") {
+      context.fillText(text.substr(0, idx - 1), x, y);
+
+      textWraped(text.substr(idx + 1), x, y + lineHeight, fitWidth, lineHeight);
+      return;
+    }
     if (context.measureText(str).width > fitWidth) {
       context.fillText(text.substr(0, idx - 1), x, y);
       textWraped(text.substr(idx - 1), x, y + lineHeight, fitWidth, lineHeight);
       return;
     }
   }
+
   context.fillText(text, x, y);
 }
 
@@ -415,6 +424,7 @@ export function DownloadWorld() {
 }
 
 export function loadWorld(worldName) {
+  setLoadingLevel(true);
   (async () => {
     //loadfileData = await readTextFile(
     //"https://kevinwh0.github.io/SocialWeb/Online%20Chat%20Game/Maps/Home.txt"
@@ -436,6 +446,7 @@ export function loadWorld(worldName) {
         //map[i][j] = Math.round(Math.random(2)) + 1;
       }
     }
+    setLoadingLevel(false);
   })();
 }
 

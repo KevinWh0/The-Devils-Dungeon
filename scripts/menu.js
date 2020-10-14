@@ -106,24 +106,22 @@ export function renderMainMenu() {
 }
 
 let blockHelp = [
-  "This is a floor block.",
-  "This is a wall block.",
-  "Crates can be pushed",
+  "This is a floor block. You can walk over it",
+  "This is a wall block. It stops you, its solid.",
+  "These are crates and they can be pushed from any direction",
   "Get on here to win the level (Exit)",
-  "This block rotates you.",
+  "This block rotates you when you stand on the block. it wont rotate any blocks you are pushing",
   "This is a exit, but it requires a key to beat this level",
   "This is a key, its used on locked exits",
-  "This is a hole, a spike comes out every second move",
-  "This is a hole with a spike, touching it kills you",
+  "This is a Crate that can only be pushed Up & Down",
+  "This is also a Crate, it can only be pushed Left & Right",
 ];
 
 let pageNumber = 0;
 let arrowLeft = new Image();
-arrowLeft.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowLeft.png";
+arrowLeft.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowLeft.png";
 let arrowRight = new Image();
-arrowRight.src =
-  "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowRight.png";
+arrowRight.src = "https://kevinwh0.github.io/The-Devils-Dungeon/assets/misc/ArrowRight.png";
 let resetTimes = 0;
 export function howToPlay() {
   if (pageNumber < 0 || pageNumber > totalBlocks) pageNumber = 0;
@@ -238,13 +236,21 @@ export function howToPlay() {
     );
 
   fill("white");
+  //rect(width / 3, height / 3 + height / 3 / 2 + blockSize * 2, width / 3, 50);
   setFontSize(20, "MainFont");
+  textWraped(
+    blockHelp[pageNumber],
+    width / 3 + 10,
+    height / 3 + height / 3 / 2 + blockSize * 2,
+    width / 3 - 20,
+    20
+  );
 
-  text(
+  /*text(
     blockHelp[pageNumber],
     centerText(blockHelp[pageNumber], width / 2, 0),
     height / 3 + height / 3 / 2 + blockSize * 2
-  );
+  );*/
 }
 
 export function settingsMenu() {
@@ -301,7 +307,14 @@ export function creditsScreen() {
 
   setFontSize(50, "MainFont");
   fill("white");
-  text("KevinWho .... Programmer/Artist/Designer", 40, height / 2);
+  textWraped(
+    "KevinWho .... Programmer/Artist/Designer NLNLWeloveindies .... Music",
+    40,
+    height / 2,
+    width - 80,
+    50
+  );
+
   setFontSize(20, "MainFont");
   fill("white");
   text(
